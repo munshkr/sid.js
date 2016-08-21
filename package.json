@@ -1,0 +1,29 @@
+{
+  "name": "SID.js",
+  "version": "1.0.0",
+  "description": "SID chip synthesizer emulator for Javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/munshkr/SID.js.git"
+  },
+  "keywords": [
+    "audio",
+    "webaudio",
+    "sid",
+    "c64",
+    "synth"
+  ],
+  "author": "Damián Silvani (@munshkr)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/munshkr/SID.js/issues"
+  },
+  "homepage": "https://github.com/munshkr/SID.js#readme",
+  "dependencies": {
+    "pico": "^0.1.17"
+  }
+}
