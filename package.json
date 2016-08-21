@@ -25,5 +25,8 @@
   "homepage": "https://github.com/munshkr/SID.js#readme",
   "dependencies": {
     "pico": "^0.1.17"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.2"
   }
 }
