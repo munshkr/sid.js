@@ -2,9 +2,10 @@
   "name": "SID.js",
   "version": "1.0.0",
   "description": "SID chip synthesizer emulator for Javascript",
-  "main": "index.js",
+  "main": "lib/sid.js",
   "scripts": {
-    "test": "mocha"
+    "build": "webpack --mode=build",
+    "dev": "webpack --progress --colors --watch --mode=dev"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "pico": "^0.1.17"
   },
   "devDependencies": {
-    "mocha": "^3.0.2"
+    "mocha": "^3.0.2",
+    "webpack": "^1.13.2"
   }
 }
