@@ -18,14 +18,14 @@ var config = {
   entry: __dirname + '/index.js',
   devtool: 'source-map',
   output: {
-    path: __dirname + '/lib',
+    path: __dirname + '/dist',
     filename: outputFile,
     library: libraryName,
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
   resolve: {
-    root: path.resolve('./src'),
+    root: path.resolve('./lib'),
     extensions: ['', '.js']
   },
   plugins: plugins

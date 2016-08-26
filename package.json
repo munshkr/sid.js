@@ -1,5 +1,5 @@
 {
-  "name": "SID.js",
+  "name": "sid",
   "version": "1.0.0",
   "description": "SID chip synthesizer emulator for Javascript",
   "main": "lib/sid.js",
