@@ -1,6 +1,6 @@
 import { chip } from './core';
 import Stream from './stream';
-import JXG from './jxg';
+import { JXG } from './jxg';
 
 export default class FastSID {
   constructor(opts) {
@@ -187,7 +187,7 @@ export default class FastSID {
     this.wavetable70 = new Array(8192);
 
     var data = JXG.decompress(comboTableCompressed);
-    var stream = Stream(data);
+    var stream = new Stream(data);
     var combo = new Array(4 * 4096 + 512);
     var i;
     for (i = 0; i < combo.length; i++) {

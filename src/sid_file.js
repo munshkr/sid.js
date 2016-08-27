@@ -10,7 +10,7 @@ export default class SIDFile {
 
   // TODO Fix this, support older PSIDs, not just RSIDs
   loadFileFromData(data) {
-    let stream = Stream(data);
+    let stream = new Stream(data);
 
     stream.seek(0x07);
     this.data_offset = stream.readInt8(); // 0x07

@@ -1,6 +1,7 @@
-import { chip, quality, synthFactory } from './core';
+import { chip, quality } from './core';
 import SIDFile from './sid_file';
 import MOS6510 from './mos6510';
+import FastSID from './fastsid';
 import Pico from 'pico';
 
 export default class Player {
@@ -18,8 +19,7 @@ export default class Player {
     this.ready = false;
     this.finished = false;
 
-    this.synth = synthFactory({
-      quality: this.quality,
+    this.synth = new FastSID({
       clock: this.clock,
       model: this.model,
       sampleRate: Pico.samplerate
