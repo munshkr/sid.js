@@ -1,8 +1,8 @@
 {
   "name": "sid",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "SID chip synthesizer emulator for Javascript",
-  "main": "lib/sid.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "webpack --mode=build",
     "dev": "webpack --progress --colors --watch --mode=dev"
