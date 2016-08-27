@@ -33,6 +33,9 @@ var config = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
+  externals: {
+    pico: 'Pico'
+  },
   resolve: {
     root: path.resolve('./lib'),
     extensions: ['', '.js']
