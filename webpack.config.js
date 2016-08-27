@@ -17,6 +17,15 @@ if (env === 'build') {
 var config = {
   entry: __dirname + '/lib/index.js',
   devtool: 'source-map',
+  module: {
+    preLoaders: [
+      { loader: 'eslint-loader', test: /\.js$/, exclude: /node_modules/ }
+    ],
+    loaders: [
+      { loader: 'babel', test: /\.js$/, exclude: /node_modules/,
+        query: { presets: ['es2015'] } }
+    ]
+  },
   output: {
     path: __dirname + '/dist',
     filename: outputFile,
