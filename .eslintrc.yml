@@ -17,3 +17,5 @@ rules:
   semi:
     - error
     - always
+  no-fallthrough:
+    - off
