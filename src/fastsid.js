@@ -1,6 +1,8 @@
-const chip = require('./core').chip;
+import { chip } from './core';
+import Stream from './stream';
+import JXG from './jxg';
 
-class FastSID {
+export default class FastSID {
   constructor(opts) {
     opts = opts || {};
 
@@ -71,7 +73,7 @@ class FastSID {
     //}
   }
 
-  init_filter = function(freq) {
+  init_filter(freq) {
     var uk;
     var rk;
     var si;
@@ -84,8 +86,8 @@ class FastSID {
     var filterFs = 400.0;
     var filterFm = 60.0;
     var filterFt = 0.05;
-    var filterAmpl = 1.0;
 
+    this.filterAmpl = 1.0;
     this.filterValue = 0;
     this.filter_type = 0;
     this.filterCurType = 0;
@@ -134,7 +136,7 @@ class FastSID {
     for (uk = 0, si = 0; si < 256; si++, uk++) {
       this.ampMod1x8[uk] = (si - 0x80) * this.filterAmpl;
     }
-  };
+  }
 
   setup_sid() {
     if (!this.update) {
@@ -232,89 +234,89 @@ class FastSID {
     pv.wtpf = 0;
     pv.wtr[1] = 0;
     switch ((this.d[pv.d_o + 4] & 0xf0) >> 4) {
-      case 0:
-        pv.wt = this.wavetable00;
-        pv.wt_off = 0;
-        pv.wtl = 31;
-        break;
-      case 1:
-        pv.wt = this.wavetable10;
-        pv.wt_off = 0;
-        if (this.d[pv.d_o + 4] & 0x04) {
-          pv.wtr[1] = 0x7fff;
-        }
-        break;
-      case 2:
-        pv.wt = this.wavetable20;
-        pv.wt_off = 0;
-        break;
-      case 3:
-        pv.wt = this.wavetable30;
-        pv.wt_off = 0;
-        if (this.d[pv.d_o + 4] & 0x04) {
-          pv.wtr[1] = 0x7fff;
-        }
-        break;
-      case 4:
-        pv.wt = this.wavetable40;
-        if (this.d[pv.d_o + 4] & 0x08) {
-          pv.wt_off = 4096;
-        } else {
-          pv.wt_off = 4096 - (this.d[pv.d_o + 2] + (this.d[pv.d_o + 3] & 0x0f) * 0x100);
-        }
-        break;
-      case 5:
-        pv.wt = this.wavetable50;
+    case 0:
+      pv.wt = this.wavetable00;
+      pv.wt_off = 0;
+      pv.wtl = 31;
+      break;
+    case 1:
+      pv.wt = this.wavetable10;
+      pv.wt_off = 0;
+      if (this.d[pv.d_o + 4] & 0x04) {
+        pv.wtr[1] = 0x7fff;
+      }
+      break;
+    case 2:
+      pv.wt = this.wavetable20;
+      pv.wt_off = 0;
+      break;
+    case 3:
+      pv.wt = this.wavetable30;
+      pv.wt_off = 0;
+      if (this.d[pv.d_o + 4] & 0x04) {
+        pv.wtr[1] = 0x7fff;
+      }
+      break;
+    case 4:
+      pv.wt = this.wavetable40;
+      if (this.d[pv.d_o + 4] & 0x08) {
+        pv.wt_off = 4096;
+      } else {
         pv.wt_off = 4096 - (this.d[pv.d_o + 2] + (this.d[pv.d_o + 3] & 0x0f) * 0x100);
-        pv.wtpf = pv.wt_off << 20;
-        if (this.d[pv.d_o + 4] & 0x04) {
-          pv.wtr[1] = 0x7fff;
-        }
-        break;
-      case 6:
-        pv.wt = this.wavetable60;
-        pv.wt_off = 4096 - (this.d[pv.d_o + 2] + (this.d[pv.d_o + 3] & 0x0f) * 0x100);
-        pv.wtpf = pv.wt_off << 20;
-        break;
-      case 7:
-        pv.wt = this.wavetable70;
-        pv.wt_off = 4096 - (this.d[pv.d_o + 2] + (this.d[pv.d_o + 3] & 0x0f) * 0x100);
-        pv.wtpf = pv.wt_off << 20;
-        if (this.d[pv.d_o + 4] & 0x04 && (this.sid_model == chip.model.MOS8580)) {
-          pv.wtr[1] = 0x7fff;
-        }
-        break;
-      case 8:
-        pv.noise = 1;
-        pv.wt = null;
-        pv.wt_off = 0;
-        pv.wtl = 0;
-        break;
-      default:
-        pv.rv = 0;
-        pv.wt = this.wavetable00;
-        pv.wt_off = 0;
-        pv.wtl = 31;
+      }
+      break;
+    case 5:
+      pv.wt = this.wavetable50;
+      pv.wt_off = 4096 - (this.d[pv.d_o + 2] + (this.d[pv.d_o + 3] & 0x0f) * 0x100);
+      pv.wtpf = pv.wt_off << 20;
+      if (this.d[pv.d_o + 4] & 0x04) {
+        pv.wtr[1] = 0x7fff;
+      }
+      break;
+    case 6:
+      pv.wt = this.wavetable60;
+      pv.wt_off = 4096 - (this.d[pv.d_o + 2] + (this.d[pv.d_o + 3] & 0x0f) * 0x100);
+      pv.wtpf = pv.wt_off << 20;
+      break;
+    case 7:
+      pv.wt = this.wavetable70;
+      pv.wt_off = 4096 - (this.d[pv.d_o + 2] + (this.d[pv.d_o + 3] & 0x0f) * 0x100);
+      pv.wtpf = pv.wt_off << 20;
+      if (this.d[pv.d_o + 4] & 0x04 && (this.sid_model == chip.model.MOS8580)) {
+        pv.wtr[1] = 0x7fff;
+      }
+      break;
+    case 8:
+      pv.noise = 1;
+      pv.wt = null;
+      pv.wt_off = 0;
+      pv.wtl = 0;
+      break;
+    default:
+      pv.rv = 0;
+      pv.wt = this.wavetable00;
+      pv.wt_off = 0;
+      pv.wtl = 31;
     }
 
     switch (pv.adsrm) {
-      case constants.ATTACK:
-      case constants.DECAY:
-      case constants.SUSTAIN:
-        if (this.d[pv.d_o + 4] & 0x01) {
-          this.set_adsr(pv, (pv.gateflip ? constants.ATTACK : pv.adsrm));
-        } else {
-          this.set_adsr(pv, constants.RELEASE);
-        }
-        break;
-      case constants.RELEASE:
-      case constants.IDLE:
-        if (this.d[pv.d_o + 4] & 0x01) {
-          this.set_adsr(pv, constants.ATTACK);
-        } else {
-          this.set_adsr(pv, pv.adsrm);
-        }
-        break;
+    case constants.ATTACK:
+    case constants.DECAY:
+    case constants.SUSTAIN:
+      if (this.d[pv.d_o + 4] & 0x01) {
+        this.set_adsr(pv, (pv.gateflip ? constants.ATTACK : pv.adsrm));
+      } else {
+        this.set_adsr(pv, constants.RELEASE);
+      }
+      break;
+    case constants.RELEASE:
+    case constants.IDLE:
+      if (this.d[pv.d_o + 4] & 0x01) {
+        this.set_adsr(pv, constants.ATTACK);
+      } else {
+        this.set_adsr(pv, pv.adsrm);
+      }
+      break;
     }
     pv.update = 0;
     pv.gateflip = 0;
@@ -324,62 +326,64 @@ class FastSID {
     var i;
     //console.log("setadsr: ", fm);
     switch (fm) {
-      case constants.ATTACK:
-        pv.adsrs = this.adrs[pv.attack];
-        pv.adsrz = 0;
-        break;
-      case constants.DECAY:
-        if ((pv.adsr >>> 0) <= this.sz[pv.sustain]) {
-          this.set_adsr(pv, constants.SUSTAIN);
-          return;
-        }
-        for (i = 0;
-          (pv.adsr >>> 0) < exptable[i]; i++) {}
-        pv.adsrs = -this.adrs[pv.decay] >> i;
-        pv.adsrz = this.sz[pv.sustain];
-        if (exptable[i] > pv.adsrz) {
-          pv.adsrz = exptable[i];
-        }
-        break;
-      case constants.SUSTAIN:
-        if ((pv.adsr >>> 0) > this.sz[pv.sustain]) {
-          this.set_adsr(pv, constants.DECAY);
-          return;
-        }
-        pv.adsrs = 0;
-        pv.adsrz = 0;
-        break;
-      case constants.RELEASE:
-        if (!pv.adsr) {
-          this.set_adsr(pv, constants.IDLE);
-          return;
-        }
-        for (i = 0;
-          (pv.adsr >>> 0) < exptable[i]; i++) {}
-        pv.adsrs = -this.adrs[pv.release] >> i;
+    case constants.ATTACK:
+      pv.adsrs = this.adrs[pv.attack];
+      pv.adsrz = 0;
+      break;
+    case constants.DECAY:
+      if ((pv.adsr >>> 0) <= this.sz[pv.sustain]) {
+        this.set_adsr(pv, constants.SUSTAIN);
+        return;
+      }
+      for (i = 0; (pv.adsr >>> 0) < exptable[i];) {
+        i++;
+      }
+      pv.adsrs = -this.adrs[pv.decay] >> i;
+      pv.adsrz = this.sz[pv.sustain];
+      if (exptable[i] > pv.adsrz) {
         pv.adsrz = exptable[i];
-        break;
-      case constants.IDLE:
-        pv.adsrs = 0;
-        pv.adsrz = 0;
-        break;
+      }
+      break;
+    case constants.SUSTAIN:
+      if ((pv.adsr >>> 0) > this.sz[pv.sustain]) {
+        this.set_adsr(pv, constants.DECAY);
+        return;
+      }
+      pv.adsrs = 0;
+      pv.adsrz = 0;
+      break;
+    case constants.RELEASE:
+      if (!pv.adsr) {
+        this.set_adsr(pv, constants.IDLE);
+        return;
+      }
+      for (i = 0; (pv.adsr >>> 0) < exptable[i];) {
+        i++;
+      }
+      pv.adsrs = -this.adrs[pv.release] >> i;
+      pv.adsrz = exptable[i];
+      break;
+    case constants.IDLE:
+      pv.adsrs = 0;
+      pv.adsrz = 0;
+      break;
     }
     pv.adsrm = fm;
   }
 
   trigger_adsr(pv) {
     switch (pv.adsrm) {
-      case constants.ATTACK:
-        pv.adsr = 0x7fffffff;
-        this.set_adsr(pv, constants.DECAY);
-        break;
-      case constants.DECAY:
-      case constants.RELEASE:
-        if ((pv.adsr >>> 0) >= 0x80000000) {
-          pv.adsr = 0;
-        }
-        this.set_adsr(pv, pv.adsrm);
-        break;
+    case constants.ATTACK:
+      pv.adsr = 0x7fffffff;
+      this.set_adsr(pv, constants.DECAY);
+      break;
+    case constants.DECAY:
+    case constants.RELEASE:
+      if ((pv.adsr >>> 0) >= 0x80000000) {
+        pv.adsr = 0;
+      }
+      this.set_adsr(pv, pv.adsrm);
+      break;
     }
   }
 
@@ -389,44 +393,44 @@ class FastSID {
 
   store(addr, byte) {
     switch (addr) {
-      case 4:
-        if ((this.d[addr] ^ byte) & 1) {
-          this.v[0].gateflip = 1;
-        }
-      case 0:
-      case 1:
-      case 2:
-      case 3:
-      case 5:
-      case 6:
-        this.v[0].update = 1;
-        break;
-      case 11:
-        if ((this.d[addr] ^ byte) & 1) {
-          this.v[1].gateflip = 1;
-        }
-      case 7:
-      case 8:
-      case 9:
-      case 10:
-      case 12:
-      case 13:
-        this.v[1].update = 1;
-        break;
-      case 18:
-        if ((this.d[addr] ^ byte) & 1) {
-          this.v[2].gateflip = 1;
-        }
-      case 14:
-      case 15:
-      case 16:
-      case 17:
-      case 19:
-      case 20:
-        this.v[2].update = 1;
-        break;
-      default:
-        this.update = 1;
+    case 4:
+      if ((this.d[addr] ^ byte) & 1) {
+        this.v[0].gateflip = 1;
+      }
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 5:
+    case 6:
+      this.v[0].update = 1;
+      break;
+    case 11:
+      if ((this.d[addr] ^ byte) & 1) {
+        this.v[1].gateflip = 1;
+      }
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 12:
+    case 13:
+      this.v[1].update = 1;
+      break;
+    case 18:
+      if ((this.d[addr] ^ byte) & 1) {
+        this.v[2].gateflip = 1;
+      }
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+    case 19:
+    case 20:
+      this.v[2].update = 1;
+      break;
+    default:
+      this.update = 1;
     }
 
     this.d[addr] = byte;
@@ -436,14 +440,14 @@ class FastSID {
     //this.laststoreclk = this.maincpu_clk;
   }
 
-  reset(cpu_clk) {
+  reset(/*cpu_clk*/) {
     for (var addr = 0; addr < 32; addr++) {
       this.fastsid_store(addr, 0);
     }
     //this.laststoreclk = cpu_clk;
     // FIXME: probably need to work this in 
     //this.maincpu_clk = cpu_clk;
-  };
+  }
 
   do_filter(pVoice) {
     if (!pVoice.filter) {
@@ -479,27 +483,27 @@ class FastSID {
         // switched to case vs. chain of tertiary ops.
         // lots of things in need of casting to signed char methinks...?
         switch (this.filter_type) {
-          case 0x10:
-            pVoice.filtIO = Math.floor(pVoice.filtLow);
-            break;
-          case 0x30:
-            pVoice.filtIO = Math.floor(pVoice.filtLow);
-            break;
-          case 0x50:
+        case 0x10:
+          pVoice.filtIO = Math.floor(pVoice.filtLow);
+          break;
+        case 0x30:
+          pVoice.filtIO = Math.floor(pVoice.filtLow);
+          break;
+        case 0x50:
             // there may be fixes needed re subtraction rollover
             //pVoice.filtIO = (Math.floor(sample) - (tmp >> 1)) & 0xff;
-            pVoice.filtIO = (Math.floor(sample) - (tmp >> 1));
-            break;
-          case 0x60:
-            pVoice.filtIO = tmp;
-            break;
-          case 0x70:
+          pVoice.filtIO = (Math.floor(sample) - (tmp >> 1));
+          break;
+        case 0x60:
+          pVoice.filtIO = tmp;
+          break;
+        case 0x70:
             //pVoice.filtIO = (Math.floor(sample) - (tmp >> 1)) & 0xff;
-            pVoice.filtIO = (Math.floor(sample) - (tmp >> 1));
-            break;
-          default:
-            pVoice.filtIO = 0;
-            break;
+          pVoice.filtIO = (Math.floor(sample) - (tmp >> 1));
+          break;
+        default:
+          pVoice.filtIO = 0;
+          break;
         }
       }
     } else {
@@ -621,13 +625,13 @@ class FastSID {
     return (
       (v << n) | (((v >>> (23 - n)) ^ (v >>> (18 - n))) & ((1 << n) - 1))
     );
-  };
+  }
 
   NVALUE(v) {
     return (
       (this.noiseLSB[v & 0xff] | this.noiseMID[(v >>> 8) & 0xff] | this.noiseMSB[(v >>> 16) & 0xff])
     );
-  };
+  }
 
   generateIntoBuffer(count, buffer, offset) {
     //console.log("SID.generateIntoBuffer (count: " + count + ", offset: " + offset + ")");
@@ -658,31 +662,31 @@ const exptable = [
 ];
 
 const comboTableCompressed =
-  "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" +
-  "PbnEK4PQRJWDNZ7/WP8CCUeSiwBCAAA=";
+  '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' +
+  'PbnEK4PQRJWDNZ7/WP8CCUeSiwBCAAA=';
 
 const constants = Object.freeze({
   NSEED: 0x7ffff8,
@@ -693,5 +697,3 @@ const constants = Object.freeze({
   IDLE: 4,
   NOISETABLESIZE: 256
 });
-
-module.exports = FastSID;

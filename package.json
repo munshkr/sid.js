@@ -3,9 +3,21 @@
   "version": "0.1.0",
   "description": "SID chip synthesizer emulator for Javascript",
   "main": "lib/index.js",
+  "module": "src/index.js",
+  "jsnext:main": "src/index.js",
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
   "scripts": {
-    "build": "webpack --mode=build",
-    "dev": "webpack --progress --colors --watch --mode=dev"
+    "clean": "rimraf lib dist",
+    "lint": "eslint src",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack src/index.js dist/sid.js",
+    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack src/index.js dist/sid.min.js",
+    "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
+    "prepublish": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
@@ -18,19 +30,26 @@
     "c64",
     "synth"
   ],
-  "author": "Damián Silvani (@munshkr)",
+  "authors": [
+    "Joe Hohertz (@jhohertz)",
+    "Damián Silvani (@munshkr)"
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/munshkr/SID.js/issues"
   },
   "homepage": "https://github.com/munshkr/SID.js#readme",
   "devDependencies": {
+    "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.14.0",
     "babel-preset-es2015": "^6.14.0",
+    "cross-env": "^2.0.0",
     "eslint": "^3.4.0",
     "eslint-loader": "^1.5.0",
     "mocha": "^3.0.2",
+    "rimraf": "^2.5.4",
     "webpack": "^1.13.2"
   }
 }

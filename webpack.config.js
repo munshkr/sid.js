@@ -1,46 +1,46 @@
-var webpack = require('webpack');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var path = require('path');
-var env = require('yargs').argv.mode;
+'use strict';
 
-var libraryName = 'sid';
+var webpack = require('webpack')
 
-var plugins = [], outputFile;
-
-if (env === 'build') {
-  plugins.push(new UglifyJsPlugin({ minimize: true }));
-  outputFile = libraryName + '.min.js';
-} else {
-  outputFile = libraryName + '.js';
-}
-
+var env = process.env.NODE_ENV
 var config = {
-  entry: __dirname + '/lib/index.js',
-  devtool: 'source-map',
   module: {
-    preLoaders: [
-      { loader: 'eslint-loader', test: /\.js$/, exclude: /node_modules/ }
-    ],
     loaders: [
-      { loader: 'babel', test: /\.js$/, exclude: /node_modules/,
-        query: { presets: ['es2015'] } }
+      {
+        loader: 'babel',
+        query: { presets: ['es2015'] },
+        test: /\.js$/,
+        exclude: /node_modules/
+      }
     ]
   },
-  output: {
-    path: __dirname + '/dist',
-    filename: outputFile,
-    library: libraryName,
-    libraryTarget: 'umd',
-    umdNamedDefine: true
-  },
+  devtool: 'source-map',
   externals: {
     pico: 'Pico'
   },
-  resolve: {
-    root: path.resolve('./lib'),
-    extensions: ['', '.js']
+  output: {
+    library: 'SID',
+    libraryTarget: 'umd'
   },
-  plugins: plugins
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(env)
+    })
+  ]
 };
 
-module.exports = config;
+if (env === 'production') {
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        warnings: false
+      }
+    })
+  )
+}
+
+module.exports = config
