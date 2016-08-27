@@ -31,7 +31,10 @@ export default class Player {
   }
 
   // Pico.js hook for processing
-  process(L, R) {
+  audioprocess(e) {
+    let L = e.buffers[0];
+    let R = e.buffers[1];
+
     if (this.ready) {
       var written = this.generateIntoBuffer(L.length, L, 0);
       if (written === 0) {
@@ -52,7 +55,7 @@ export default class Player {
 
   play() {
     this.ready = true;
-    Pico.play(this);
+    Pico.play((e) => this.audioprocess(e));
   }
 
   stop() {
@@ -151,13 +154,16 @@ export default class Player {
     dataOffset = dataOffset || 0;
     let dataOffsetStart = dataOffset;
 
-    //console.log("Generating " + samples + " samples (" + samplesToNextFrame + " to next frame)");
+    console.log(`Generating ${samples} samples (${this.samplesToNextFrame} to next frame)`);
+
     let samplesRemaining = samples;
     let generated;
     for (;;) {
       if (this.samplesToNextFrame !== null && this.samplesToNextFrame <= samplesRemaining) {
         let samplesToGenerate = Math.ceil(this.samplesToNextFrame);
-        //console.log("next frame: " + samplesToNextFrame + ", remaining: " + samplesRemaining + ", offset: " + dataOffset + ", generate: " + samplesToGenerate);
+
+        console.log(`next frame: ${this.samplesToNextFrame}, remaining: ${samplesRemaining}, offset: ${dataOffset}, generate: ${samplesToGenerate}`);
+
         if (samplesToGenerate > 0) {
           generated = this.synth.generateIntoBuffer(samplesToGenerate, data, dataOffset);
           dataOffset += generated;
@@ -177,7 +183,9 @@ export default class Player {
         break;
       }
     }
-    //console.log("data: ", data);
+
+    console.log(`data: ${data}`);
+
     return dataOffset - dataOffsetStart;
   }
 }
