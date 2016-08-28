@@ -1,4 +1,4 @@
-import { chip, quality } from './core';
+import {chip} from './core';
 import SIDFile from './sid_file';
 import MOS6510 from './mos6510';
 import FastSID from './fastsid';
@@ -8,7 +8,6 @@ export default class Player {
   constructor(opts) {
     opts = opts || {};
 
-    this.quality = opts.quality || quality.good;
     this.clock = opts.clock || chip.clock.PAL;
     this.model = opts.model || chip.model.MOS6581;
 

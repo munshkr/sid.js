@@ -1,6 +1,6 @@
-import { chip } from './core';
+import {chip} from './core';
 import Stream from './stream';
-import { JXG } from './jxg';
+import {JXG} from './jxg';
 
 export default class FastSID {
   constructor(opts) {

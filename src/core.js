@@ -8,12 +8,3 @@ export const chip = Object.freeze({
     NTSC: 1022730
   }
 });
-
-export const quality = Object.freeze({
-  low: 'tinysid',
-  medium: 'fastsid',
-  good: 'resid_fast',
-  better: 'resid_interpolate',
-  best: 'resid_resample_interpolate',
-  broken: 'resid_resample_fast'
-});
