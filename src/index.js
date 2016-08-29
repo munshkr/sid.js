@@ -1,9 +1,9 @@
 import Player from './player';
 import SIDFile from './sid_file';
-import Stream from './stream';
+import MOS6510 from './mos6510';
 
 export {
   Player,
   SIDFile,
-  Stream
+  MOS6510,
 };
