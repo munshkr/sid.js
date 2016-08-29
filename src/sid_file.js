@@ -4,12 +4,30 @@ export default class SIDFile {
   constructor(data) {
     this.loaded = false;
     if (data) {
-      this.loadFileFromData(data);
+      this._loadFileFromData(data);
     }
   }
 
+  infostring() {
+    let ret = '';
+    ret += this.name + ' ';
+    if (this.subsongs > 0) {
+      ret += '( ' + (this.currentsong + 1) + ' / ' + (this.subsongs + 1) + ' ) ';
+    }
+    ret += '| ' + this.author + ', Published: ' + this.published;
+    return ret;
+  }
+
+  getCurrentSong() {
+    return this.currentsong;
+  }
+
+  getSubSongs() {
+    return this.subsongs;
+  }
+
   // TODO Fix this, support older PSIDs, not just RSIDs
-  loadFileFromData(data) {
+  _loadFileFromData(data) {
     let stream = new Stream(data);
 
     stream.seek(0x07);
@@ -51,23 +69,5 @@ export default class SIDFile {
       this.mem[loadptr] = stream.readInt8();
       loadptr++;
     }
-  }
-
-  infostring() {
-    let ret = '';
-    ret += this.name + ' ';
-    if (this.subsongs > 0) {
-      ret += '( ' + (this.currentsong + 1) + ' / ' + (this.subsongs + 1) + ' ) ';
-    }
-    ret += '| ' + this.author + ', Published: ' + this.published;
-    return ret;
-  }
-
-  getCurrentSong() {
-    return this.currentsong;
-  }
-
-  getSubSongs() {
-    return this.subsongs;
   }
 }

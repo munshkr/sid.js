@@ -28,43 +28,6 @@ export default class Player {
     });
   }
 
-  getSidFile() {
-    return this.sidfile;
-  }
-
-  // Pico.js hook for processing
-  audioprocess(e) {
-    let L = e.buffers[0];
-    let R = e.buffers[1];
-
-    if (this.ready) {
-      var written = this.generateIntoBuffer(L.length, L, 0);
-      if (written === 0) {
-        //play_mod(random_mod_href());
-        this.ready = false;
-        this.finished = true;
-        this.stop();
-      } else {
-        // copy left channel to right
-        for (var i = 0; i < L.length; i++) {
-          R[i] = L[i];
-        }
-      }
-    } else {
-      this.stop();
-    }
-  }
-
-  play() {
-    this.ready = true;
-    Pico.play((e) => this.audioprocess(e));
-  }
-
-  stop() {
-    Pico.pause();
-    this.ready = false;
-  }
-
   // load the .sid file into a 64k memory image array
   loadFileFromData(data) {
     this.stop();
@@ -85,6 +48,16 @@ export default class Player {
     this.changeTrack(this.sidfile.startsong);
   }
 
+  play() {
+    this.ready = true;
+    Pico.play((e) => this._audioprocess(e));
+  }
+
+  stop() {
+    Pico.pause();
+    this.ready = false;
+  }
+
   changeTrack(track) {
     if (track >= 0 && track <= this.sidfile.subsongs) {
       this.stop();
@@ -96,7 +69,7 @@ export default class Player {
       this.samplesToNextFrame = 0;
 
       // get the first frame
-      this.getNextFrame();
+      this._getNextFrame();
     }
   }
 
@@ -109,6 +82,10 @@ export default class Player {
     this.changeTrack(this.sidfile.currentsong - 1);
   }
 
+  getSidFile() {
+    return this.sidfile;
+  }
+
   getTrack() {
     return this.sidfile.currentsong;
   }
@@ -117,7 +94,30 @@ export default class Player {
     return this.sidfile.subsongs;
   }
 
-  getNextFrame() {
+  // Pico.js hook for processing
+  _audioprocess(e) {
+    let L = e.buffers[0];
+    let R = e.buffers[1];
+
+    if (this.ready) {
+      var written = this._generateIntoBuffer(L.length, L, 0);
+      if (written === 0) {
+        //play_mod(random_mod_href());
+        this.ready = false;
+        this.finished = true;
+        this.stop();
+      } else {
+        // copy left channel to right
+        for (var i = 0; i < L.length; i++) {
+          R[i] = L[i];
+        }
+      }
+    } else {
+      this.stop();
+    }
+  }
+
+  _getNextFrame() {
     if (this.play_active) {
       this.cpu.cpuJSR(this.sidfile.play_addr, 0);
       // check if CIA timing is used, and adjust
@@ -144,14 +144,8 @@ export default class Player {
     }
   }
 
-  generate(samples) {
-    var data = new Array(samples * 2);
-    this.generateIntoBuffer(samples, data, 0);
-    return data;
-  }
-
   // generator
-  generateIntoBuffer(samples, data, dataOffset) {
+  _generateIntoBuffer(samples, data, dataOffset) {
     if (!this.ready) return 0;
     dataOffset = dataOffset || 0;
     let dataOffsetStart = dataOffset;
@@ -173,7 +167,7 @@ export default class Player {
           this.samplesToNextFrame -= generated;
         }
 
-        this.getNextFrame();
+        this._getNextFrame();
       } else {
         /* generate samples to end of buffer */
         if (samplesRemaining > 0) {
