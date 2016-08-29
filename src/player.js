@@ -1,4 +1,5 @@
 import {chip} from './core';
+import Stream from './stream';
 import SIDFile from './sid_file';
 import MOS6510 from './mos6510';
 import TinySID from './tinysid';
@@ -28,8 +29,15 @@ export default class Player {
     });
   }
 
+  loadURL(url, callback) {
+    Stream.loadRemoteFile(url, (data) => {
+      this.loadData(data);
+      callback.call(this);
+    });
+  }
+
   // load the .sid file into a 64k memory image array
-  loadFileFromData(data) {
+  loadData(data) {
     this.stop();
     this.sidfile = new SIDFile(data);
 
