@@ -246,7 +246,7 @@ export default class MOS6510 {
   }
 
   branch(flag) {
-    let dist = this.getaddr(this.mode.imm);
+    let dist = this.getaddr(mode.imm);
     // FIXME: while this was checked out, it still seems too complicated
     // make signed
     if (dist & 0x80) {
