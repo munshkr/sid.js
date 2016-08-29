@@ -1,3 +1,5 @@
+const log = require('debug')('sid:mos6510');
+
 export default class MOS6510 {
   constructor(mem, sid) {
     this.cycles = 0;
@@ -22,7 +24,7 @@ export default class MOS6510 {
   }
 
   getmem(addr) {
-    //if (addr < 0 || addr > 65536) console.log("MOS6510#getmem: out of range addr: " + addr + " (caller: " + arguments.caller + ")");
+    if (addr < 0 || addr > 65536) log("getmem: out of range addr: " + addr + " (caller: " + arguments.caller + ")");
     //if (addr == 0xdd0d) {
     //	this.mem[addr] = 0;
     //}
@@ -30,12 +32,12 @@ export default class MOS6510 {
   }
 
   setmem(addr, value) {
-    //if (addr < 0 || addr > 65535) console.log("MOS6510#getmem: out of range addr: " + addr + " (caller: " + arguments.caller + ")");
-    //if (value < 0 || value > 255 ) console.log("MOS6510#getmem: out of range value: " + value + " (caller: " + arguments.caller + ")");
+    if (addr < 0 || addr > 65535) log("setmem: out of range addr: " + addr + " (caller: " + arguments.caller + ")");
+    if (value < 0 || value > 255 ) log("setmem: out of range value: " + value + " (caller: " + arguments.caller + ")");
     if ((addr & 0xfc00) == 0xd400 && this.sid !== null) {
       this.sid.poke(addr & 0x1f, value);
       if (addr > 0xd418) {
-        //console.log("attempted digi poke:", addr, value);
+        log("attempted digi poke:", addr, value);
         this.sid.pokeDigi(addr, value);
       }
     } else {
@@ -115,7 +117,7 @@ export default class MOS6510 {
       this.cycles += 2;
       return this.a;
     }
-    //console.log("getaddr: attempted unhandled mode");
+    log("getaddr: attempted unhandled mode");
     return 0;
   }
 
@@ -153,7 +155,7 @@ export default class MOS6510 {
       this.a = val;
       return;
     }
-    //console.log("setaddr: attempted unhandled mode");
+    log("setaddr: attempted unhandled mode");
   }
 
   putaddr(mode, val) {
@@ -222,7 +224,7 @@ export default class MOS6510 {
       this.a = val;
       return;
     }
-    //console.log("putaddr: attempted unhandled mode");
+    log(`putaddr: attempted unhandled mode (${mode})`);
   }
 
   setflags(flag, cond) {
@@ -289,7 +291,7 @@ export default class MOS6510 {
     let cmd = opcodes[opc][0];
     let addr = opcodes[opc][1];
 
-    //console.log(opc, cmd, addr);
+    log(`cpuParse: opc=${opc.toString(16)}, cmd=${JSON.stringify(cmd)}, addr=${JSON.stringify(addr)}`);
 
     switch (cmd) {
     case inst.adc:
@@ -618,7 +620,7 @@ export default class MOS6510 {
       this.setflags(flag.N, this.a & 0x80);
       break;
     default:
-      //console.log("cpuParse: attempted unhandled instruction, opcode: ", opc);
+      log(`cpuParse: attempted unhandled instruction, opc=${opc}`);
     }
     return this.cycles;
   }

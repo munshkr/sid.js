@@ -1,9 +1,10 @@
 import {chip} from './core';
 import SIDFile from './sid_file';
 import MOS6510 from './mos6510';
-import FastSID from './fastsid';
 import TinySID from './tinysid';
 import Pico from 'pico';
+
+const log = require('debug')('sid:player');
 
 export default class Player {
   constructor(opts) {
@@ -76,7 +77,7 @@ export default class Player {
     if (this.sidfile.play_addr === 0) {
       this.cpu.cpuJSR(this.sidfile.init_addr, 0);
       this.sidfile.play_addr = (this.cpu.mem[0x0315] << 8) + this.cpu.mem[0x0314];
-      //console.log('new play_addr: ', this.sidfile.play_addr);
+      log('new play_addr: ', this.sidfile.play_addr);
     }
 
     this.synth.poke(24, 15); // turn up volume
@@ -154,7 +155,7 @@ export default class Player {
     dataOffset = dataOffset || 0;
     let dataOffsetStart = dataOffset;
 
-    console.log(`Generating ${samples} samples (${this.samplesToNextFrame} to next frame)`);
+    log(`Generating ${samples} samples (${this.samplesToNextFrame} to next frame)`);
 
     let samplesRemaining = samples;
     let generated;
@@ -162,7 +163,7 @@ export default class Player {
       if (this.samplesToNextFrame !== null && this.samplesToNextFrame <= samplesRemaining) {
         let samplesToGenerate = Math.ceil(this.samplesToNextFrame);
 
-        console.log(`next frame: ${this.samplesToNextFrame}, remaining: ${samplesRemaining}, offset: ${dataOffset}, generate: ${samplesToGenerate}`);
+        log(`next frame: ${this.samplesToNextFrame}, remaining: ${samplesRemaining}, offset: ${dataOffset}, generate: ${samplesToGenerate}`);
 
         if (samplesToGenerate > 0) {
           generated = this.synth.generateIntoBuffer(samplesToGenerate, data, dataOffset);
@@ -184,7 +185,7 @@ export default class Player {
       }
     }
 
-    console.log(`data: ${data}`);
+    log(`data: ${data}`);
 
     return dataOffset - dataOffsetStart;
   }

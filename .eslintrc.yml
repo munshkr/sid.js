@@ -19,3 +19,5 @@ rules:
     - always
   no-fallthrough:
     - off
+  no-console:
+    - warn

@@ -1,3 +1,5 @@
+const log = require('debug')('sid:tinysid');
+
 export default class TinySID {
   constructor(opts) {
     opts = opts || {};
@@ -81,7 +83,8 @@ export default class TinySID {
 
   // generate count samples into buffer at offset
   generateIntoBuffer(count, buffer, offset) {
-    //console.log("TinySID.generateIntoBuffer (count: " + count + ", offset: " + offset + ")");
+    log("TinySID.generateIntoBuffer (count: " + count + ", offset: " + offset + ")");
+
     // FIXME: this could be done in one pass. (No?)
     for (var i = offset; i < offset + count; i++) {
       buffer[i] = 0;
