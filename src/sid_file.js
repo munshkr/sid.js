@@ -31,17 +31,24 @@ export default class SIDFile {
     stream.seek(0x56);
     this.published = stream.read(32);
 
-    stream.seek(this.data_offset);
-    //this.load_addr       = stream.readInt8();
-    //this.load_addr      |= stream.readInt8() << 8;
-    let loadptr = this.load_addr;
-
     // create new memory array and zero
     this.mem = new Array(65536);
     for (let i = 0; i < 65536; i++) {
       this.mem[i] = 0;
     }
 
+    // go to data offset
+    stream.seek(this.data_offset);
+
+    // if loadAddress header is 0, *real* load address is
+    // first two bytes of dataOffset.
+    if (this.load_addr == 0) {
+      this.load_addr  = stream.readInt8();
+      this.load_addr |= stream.readInt8() << 8;
+    }
+
+    // load data into memory
+    let loadptr = this.load_addr;
     while (!stream.eof()) {
       this.mem[loadptr] = stream.readInt8();
       loadptr++;
