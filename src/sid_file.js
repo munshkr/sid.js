@@ -33,9 +33,7 @@ export default class SIDFile {
 
     // create new memory array and zero
     this.mem = new Array(65536);
-    for (let i = 0; i < 65536; i++) {
-      this.mem[i] = 0;
-    }
+    this.mem.fill(0);
 
     // go to data offset
     stream.seek(this.data_offset);
