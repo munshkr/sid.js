@@ -3,8 +3,9 @@ import SIDFile from './sid_file';
 import MOS6510 from './mos6510';
 import TinySID from './tinysid';
 import Pico from 'pico';
+import debug from 'debug';
 
-const log = require('debug')('sid:player');
+const log = debug('sid:player');
 
 export default class Player {
   constructor(opts) {

@@ -1,4 +1,6 @@
-const log = require('debug')('sid:mos6510');
+import debug from 'debug';
+
+const log = debug('sid:mos6510');
 
 export default class MOS6510 {
   constructor(mem, sid) {
@@ -123,14 +125,14 @@ export default class MOS6510 {
       this.cycles += 2;
       return this.a;
     case 'ind':
-      log("getaddr: attempted indirect addressing mode");
+      log('getaddr: attempted indirect addressing mode');
       return 0;
     case 'rel':
-      log("getaddr: attempted relative addressing mode");
+      log('getaddr: attempted relative addressing mode');
       return 0;
     }
 
-    log("getaddr: attempted unhandled mode");
+    log('getaddr: attempted unhandled mode');
 
     return 0;
   }
@@ -171,7 +173,7 @@ export default class MOS6510 {
       return;
     }
 
-    log("setaddr: attempted unhandled mode");
+    log('setaddr: attempted unhandled mode');
   }
 
   putaddr(mode, val) {
