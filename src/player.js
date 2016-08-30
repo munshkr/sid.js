@@ -2,18 +2,29 @@ import {chip} from './core';
 import Stream from './stream';
 import SIDFile from './sid_file';
 import CPU from './cpu';
-import TinySID from './tinysid';
 import Pico from 'pico';
 import debug from 'debug';
 
 const log = debug('sid:player');
 
-export default class Player {
-  constructor(opts) {
-    opts = opts || {};
+const clock = Object.freeze({
+  'pal': chip.clock.PAL,
+  'ntsc': chip.clock.NTSC
+});
 
-    this.clock = opts.clock || chip.clock.PAL;
-    this.model = opts.model || chip.model.MOS6581;
+const model = Object.freeze({
+  '6581': chip.model.MOS6581,
+  '8580': chip.model.MOS8580
+});
+
+export default class Player {
+  constructor(synthClass, opts) {
+    opts = Object.assign({}, opts);
+    opts.clock = clock[opts.clock] || chip.clock.PAL;
+    opts.model = model[opts.model] || chip.model.MOS6581;
+
+    this.clock = opts.clock;
+    this.model = opts.model;
 
     this.play_active = true;
     this.samplesToNextFrame = 0;
@@ -22,15 +33,15 @@ export default class Player {
     this.ready = false;
     this.finished = false;
 
-    this.synth = new TinySID({
-      clock: this.clock,
-      model: this.model,
+    const synthOpts = Object.assign({
       sampleRate: Pico.samplerate
-    });
+    }, opts);
+
+    this.synth = new synthClass(synthOpts);
   }
 
   loadURL(url, callback) {
-    Stream.loadRemoteFile(url, (data) => {
+    Stream.loadRemoteFile(url, data => {
       this.loadData(data);
       callback.call(this);
     });

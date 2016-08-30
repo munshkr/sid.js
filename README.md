@@ -12,7 +12,7 @@ audio processor (not included).
 ## Example
 
 ```javascript
-var player = new SID.Player();
+var player = new SID.Player(SID.ReSID);
 
 /* fetch SID file and start playing */
 player.loadURL('music/song.sid', function() {
@@ -54,6 +54,26 @@ include it first:
   <!-- ... -->
 </head>
 ```
+
+If you use `sid.min.js`, remember that Player, or the synth classes are inside
+the SID *namespace* object, so you have to prefix them with `SID.` (see example
+above).
+
+You can pass an options object when constructing Player with the following keys:
+
+* `synth`: Type of synthesis emulator to use. You must provide a synth class,
+  one of these: `TinySID`, `FastSID` or `ReSID`.
+
+* `clock`: (optional) Force clock to be PAL-B or NTSC. Possible values are: `pal`, `ntsc`
+  Default: clock suggested by SID file.
+
+* `model`: (optional) Force SID chip model. Possible values are: `6581`, `8580`.
+  Default: model suggested by SID file.
+
+* `sample`: (optional, *only applies to ReSID*) Select a sampling method.
+  Possible values are: `fast`, `interpolate`, `resample_interpolate`, `resample_fast`
+  Default: `fast`
+
 
 ## Contributing
 
