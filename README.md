@@ -7,7 +7,6 @@ Joe Hohertz.  The main differences are:
 
   * Code refactor into ES6
   * More documentation
-  * Unit tests
 
 Depends on [Pico.js](https://mohayonao.github.io/pico.js/) for a cross-platform
 audio processor.
@@ -61,4 +60,4 @@ https://github.com/munshkr/SID.js
 
 ## License
 
-See LICENSE.md
+Licensed under GPL v2 or later.  See LICENSE.md for more information.
