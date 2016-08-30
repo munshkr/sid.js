@@ -1,9 +1,9 @@
 import Player from './player';
 import SIDFile from './sid_file';
-import MOS6510 from './mos6510';
+import CPU from './cpu';
 
 export {
   Player,
   SIDFile,
-  MOS6510,
+  CPU,
 };

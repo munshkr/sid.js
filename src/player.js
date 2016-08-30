@@ -1,7 +1,7 @@
 import {chip} from './core';
 import Stream from './stream';
 import SIDFile from './sid_file';
-import MOS6510 from './mos6510';
+import CPU from './cpu';
 import TinySID from './tinysid';
 import Pico from 'pico';
 import debug from 'debug';
@@ -43,7 +43,7 @@ export default class Player {
 
     this.sidspeed = this.sidfile.speed ? 100 : 50; // 0=50hz, 1=100hz
     this.samplesPerFrame = this.synth.mix_freq / this.sidspeed;
-    this.cpu = new MOS6510(this.sidfile.mem, this.synth);
+    this.cpu = new CPU(this.sidfile.mem, this.synth);
 
     // now everything is setup, initialize the sid if needed
     if (this.sidfile.play_addr === 0) {

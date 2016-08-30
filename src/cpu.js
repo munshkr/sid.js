@@ -1,8 +1,8 @@
 import debug from 'debug';
 
-const log = debug('sid:mos6510');
+const log = debug('sid:cpu');
 
-export default class MOS6510 {
+export default class CPU {
   constructor(mem, sid) {
     this.cycles = 0;
     this.bval = 0;
