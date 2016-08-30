@@ -5,7 +5,7 @@ SID chip synthesizer emulator for Javascript.
 Source code is based mainly on [jsSID](https://github.com/jhohertz/jsSID) by
 Joe Hohertz.  The main differences are:
 
-  * Code refactor into ES6
+  * Code refactor into ES2015
   * More documentation
 
 Depends on [Pico.js](https://mohayonao.github.io/pico.js/) for a cross-platform
@@ -36,7 +36,12 @@ npm install munshkr/SID.js
 
 If you clone the repo, install all dependency packages with `npm install`.
 
-Then execute `npm test` to run unit tests and verify everything works.
+Then run `npm run build` to build everything.
+
+* `src` contains original ES2015 source code
+* `lib` contains CommonJS-compatible source modules
+* `dist` contains minified and non-minified builds in UMD format, ready to be
+  used in a browser without any bundlers.
 
 
 ## Usage
