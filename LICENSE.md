@@ -1,31 +1,31 @@
-Copyright (c) 2016 Joe Hohertz, Damián Silvani
+Copyright (c) 2013 Joe Hohertz, Damián Silvani
 
 With the following 3rd party exceptions, this project is licensed under the GPL
 v2 (or later) License.
 
-### Vice
+#### Vice ####
 
 FastSID emulation from Vice: Licensed under the GPL v2 (or later) License.
 http://vice-emu.sourceforge.net/
 
-### TinySID
+#### TinySID ####
 
 Some code losely based on TinySID as found in Rockbox:
 Licensed under the GPL v2 License.
 
 Written by Tammo Hinrichs (kb) and Rainer Sinsch in 1998-1999
 
-### libsidplay
+#### libsidplay ####
 
 ReSID emulation from libsidplay: Licensed under the GPL v2 License.
 https://sourceforge.net/projects/sidplay-residfp/
 
-### pico.js
+#### Pico.js ####
 
 Pico.js is licensed under the MIT License
 https://github.com/mohayonao/pico.js
 
-### Zip compression (`jsxcompressor.js`)
+#### Zip compression (`jsxcompressor.js`) ####
 
 Dual licensed under the Apache License Version 2.0, or LGPL Version 3 licenses.
 
@@ -37,7 +37,7 @@ Bianca Valentin,
 Alfred Wassermann,
 Peter Wilfahrt
 
-### Stream (`stream.js`)
+#### Stream (`stream.js`) ####
 
 Copyright (c) 2010, Matt Westcott & Ben Firshman
 All rights reserved.
@@ -48,6 +48,7 @@ Copyright (c) 2010, Robert Kieffer
 
 ## MIT LICENSE
 
+```
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
@@ -69,10 +70,11 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
 ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+```
 
 ## GPL LICENCE
 
+```
 		    GNU GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
 
@@ -413,3 +415,4 @@ proprietary programs.  If your program is a subroutine library, you may
 consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Library General
 Public License instead of this License.
+```

@@ -60,4 +60,4 @@ https://github.com/munshkr/SID.js
 
 ## License
 
-Licensed under GPL v2 or later.  See LICENSE.md for more information.
+Licensed under GPL v2 or later.  See [LICENSE.md](LICENSE.md) for more information.
