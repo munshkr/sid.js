@@ -3,13 +3,11 @@
 SID chip synthesizer emulator for Javascript.
 
 Source code is based mainly on [jsSID](https://github.com/jhohertz/jsSID) by
-Joe Hohertz.  The main differences are:
-
-  * Code refactor into ES2015
-  * More documentation
+Joe Hohertz.  For now the main difference is that code was refactored into
+ES2015 classes, and it's an NPM-installable package.
 
 Depends on [Pico.js](https://mohayonao.github.io/pico.js/) for a cross-platform
-audio processor.
+audio processor (not included).
 
 ## Example
 
