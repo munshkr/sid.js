@@ -1,4 +1,4 @@
-# SID.js
+# sid.js
 
 SID chip synthesizer emulator for Javascript.
 
@@ -29,7 +29,7 @@ player.loadURL('music/song.sid', function() {
 You can install with npm:
 
 ```bash
-npm install munshkr/SID.js
+npm install munshkr/sid.js
 ```
 
 If you clone the repo, install all dependency packages with `npm install`.
@@ -44,7 +44,7 @@ Then run `npm run build` to build everything.
 
 ## Usage
 
-Because SID.js depends on Pico.js to write to the browser's audio context, you must
+Because sid.js depends on Pico.js to write to the browser's audio context, you must
 include it first:
 
 ```html
@@ -78,7 +78,7 @@ You can pass an options object when constructing Player with the following keys:
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at
-https://github.com/munshkr/SID.js
+https://github.com/munshkr/sid.js
 
 
 ## License
