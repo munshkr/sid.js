@@ -26,8 +26,8 @@ export default class FastSID {
     this.speed1 = Math.floor((cycles_per_sec << 8) / speed);
     this.adrs = new Array(16);
     this.sz = new Array(16);
-    let i;
-    for (i = 0; i < 16; i++) {
+
+    for (let i = 0; i < 16; i++) {
       this.adrs[i] = 500 * 8 * this.speed1 / adrtable[i];
       this.sz[i] = 0x8888888 * i;
     }
@@ -35,7 +35,7 @@ export default class FastSID {
 
     this.init_filter(speed);
     this.v = new Array(3);
-    for (i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
       this.v[i] = {
         wtr: new Array(2),
         adsrm: constants.IDLE
@@ -44,7 +44,7 @@ export default class FastSID {
     this.setup_sid();
     this.setup_wavetables();
 
-    for (i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
       this.v[i].vprev = this.v[(i + 2) % 3];
       this.v[i].vnext = this.v[(i + 1) % 3];
       this.v[i].nr = i;
@@ -61,7 +61,7 @@ export default class FastSID {
     this.noiseMSB = new Array(constants.NOISETABLESIZE);
     this.noiseMID = new Array(constants.NOISETABLESIZE);
     this.noiseLSB = new Array(constants.NOISETABLESIZE);
-    for (i = 0; i < constants.NOISETABLESIZE; i++) {
+    for (let i = 0; i < constants.NOISETABLESIZE; i++) {
       this.noiseLSB[i] = ((((i >> 5) & 0x04) | ((i >> 3) & 0x02) | ((i >> 2) & 0x01))) & 0xFF;
       this.noiseMID[i] = ((((i >> 1) & 0x10) | ((i << 0) & 0x08))) & 0xFF;
       this.noiseMSB[i] = ((((i << 6) & 0x80) | ((i << 2) & 0x40) | ((i << 5) & 0x20))) & 0xFF;
