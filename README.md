@@ -12,7 +12,7 @@ audio processor (not included).
 ## Example
 
 ```javascript
-var player = new SID.Player(SID.ReSID);
+var player = new SID.Player(SID.TinySID);
 
 /* fetch SID file and start playing */
 player.loadURL('music/song.sid', function() {
@@ -37,7 +37,6 @@ If you clone the repo, install all dependency packages with `npm install`.
 Then run `npm run build` to build everything.
 
 * `src` contains original ES2015 source code
-* `lib` contains CommonJS-compatible source modules
 * `dist` contains minified and non-minified builds in UMD format, ready to be
   used in a browser without any bundlers.
 

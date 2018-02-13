@@ -1,20 +1,28 @@
 'use strict';
 
-var webpack = require('webpack')
+const webpack = require('webpack')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-var env = process.env.NODE_ENV
-var config = {
+const env = process.env.NODE_ENV
+
+let config = {
   module: {
-    loaders: [
+    rules: [
       {
-        loader: 'babel',
-        query: { presets: ['es2015'] },
         test: /\.js$/,
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          },
+          "eslint-loader"
+        ]
       }
     ]
   },
-  devtool: 'source-map',
   externals: {
     pico: 'Pico'
   },
@@ -22,24 +30,12 @@ var config = {
     library: 'SID',
     libraryTarget: 'umd'
   },
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env)
-    })
-  ]
+  plugins: []
 };
 
 if (env === 'production') {
   config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false
-      }
-    })
+    new UglifyJsPlugin()
   )
 }
 

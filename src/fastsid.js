@@ -1,6 +1,6 @@
 import {chip} from './core';
 import Stream from './stream';
-import {JXG} from './jxg';
+//import {JXG} from './jxg';
 
 export default class FastSID {
   constructor(opts) {
@@ -186,7 +186,8 @@ export default class FastSID {
     this.wavetable60 = new Array(8192);
     this.wavetable70 = new Array(8192);
 
-    var data = JXG.decompress(comboTableCompressed);
+    //var data = JXG.decompress(comboTableCompressed);
+    var data = [];
     var stream = new Stream(data);
     var combo = new Array(4 * 4096 + 512);
     var i;
@@ -490,15 +491,15 @@ export default class FastSID {
           pVoice.filtIO = Math.floor(pVoice.filtLow);
           break;
         case 0x50:
-            // there may be fixes needed re subtraction rollover
-            //pVoice.filtIO = (Math.floor(sample) - (tmp >> 1)) & 0xff;
+          // there may be fixes needed re subtraction rollover
+          //pVoice.filtIO = (Math.floor(sample) - (tmp >> 1)) & 0xff;
           pVoice.filtIO = (Math.floor(sample) - (tmp >> 1));
           break;
         case 0x60:
           pVoice.filtIO = tmp;
           break;
         case 0x70:
-            //pVoice.filtIO = (Math.floor(sample) - (tmp >> 1)) & 0xff;
+          //pVoice.filtIO = (Math.floor(sample) - (tmp >> 1)) & 0xff;
           pVoice.filtIO = (Math.floor(sample) - (tmp >> 1));
           break;
         default:
@@ -661,6 +662,7 @@ const exptable = [
   0x30000000, 0x1c000000, 0x0e000000, 0x08000000, 0x04000000, 0x00000000
 ];
 
+/*
 const comboTableCompressed =
   'H4sIABbCO1ICA+2bTW/jRBjHXe2BG/sFVpRvwBEkoMk34MgBQX3jgKBGICWo3nTQCvXAYT8BJIg7' +
   'MQfUSPU2g1aIGwkHVCNC4qqHRtpuErShCc1ml2debM9MnLhZ72Itnr86Ho/nxfNij5/+ZmIYWWrj' +
@@ -687,6 +689,7 @@ const comboTableCompressed =
   'TVfZ/c/2H6b5/QBWN3tJ27WC/YMr+cZp0o8LRP6xIHF/IAcS8k8IpP2A4q8BQhKQ4fCvWnuy1uaQ' +
   'CB2AO0R3jiSmiQWfJPLo0+ETh3x/aCA8wqPRBI+ms+n80RyOIzyBbnzg+2g4uO/f8zE6wxjy9+gu' +
   'PbnEK4PQRJWDNZ7/WP8CCUeSiwBCAAA=';
+*/
 
 const constants = Object.freeze({
   NSEED: 0x7ffff8,

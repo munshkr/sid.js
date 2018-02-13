@@ -1,6 +1,6 @@
 import {chip} from './core';
 import Stream from './stream';
-import {JXG} from './jxg';
+//import {JXG} from './jxg';
 
 export default class ReSID {
   constructor(opts) {
@@ -1624,7 +1624,8 @@ const comboTableCompressed =
 
 // expand/split tables
 const comboTable = function() {
-  var data = JXG.decompress(comboTableCompressed);
+  //var data = JXG.decompress(comboTableCompressed);
+  var data = [];
   var stream = new Stream(data);
   var names = [
     'wave6581__ST', 'wave6581_P_T', 'wave6581_PS_', 'wave6581_PST',
